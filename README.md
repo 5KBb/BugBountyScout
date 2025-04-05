@@ -22,7 +22,7 @@ BugBountyScout is an automated security testing tool designed for ethical securi
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/BugBountyScout.git
+git clone https://github.com/5KBb/BugBountyScout.git
 cd BugBountyScout
 ```
 
