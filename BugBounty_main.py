@@ -50,7 +50,7 @@ class BugBountyScout:
         self.verbose = verbose
         self.session = requests.Session()
         self.session.headers.update({
-            'User-Agent': 'BugBountyScout/1.0 (https://github.com/yourusername/BugBountyScout)'
+            'User-Agent': 'BugBountyScout/1.0 (https://github.com/5KBb/BugBountyScout)'
         })
         self.findings = []
         self.scan_start_time = None
