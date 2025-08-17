@@ -1,6 +1,6 @@
 # BugBountyScout
 
-![Descrizione](assets/screenshot.png)
+!(assets/screenshot.png)
 
 
 **Made in Italy 🇮🇹** – Strumento CLI per bug bounty che automatizza controlli su **HTTP headers**, **TLS**, **XSS** e **SQLi** con report JSON (opz. cifrati).
