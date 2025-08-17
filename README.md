@@ -1,46 +1,88 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/Scout%20Theme-olive%20green-6B8E23?style=for-the-badge" alt="Scout Theme" />
-  <img src="https://img.shields.io/badge/Made%20in-Italy-008C45?style=for-the-badge" alt="Made in Italy" />
-  <br>
-  <img src="https://img.shields.io/github/stars/5KBb/BugBountyScout?style=for-the-badge" alt="GitHub Stars" />
-  <img src="https://img.shields.io/github/issues/5KBb/BugBountyScout?style=for-the-badge" alt="Issues" />
-  <img src="https://img.shields.io/github/license/5KBb/BugBountyScout?style=for-the-badge" alt="License" />
-</p>
+# BugBountyScout
 
-# 🏕️ BugBountyScout
+**Made in Italy 🇮🇹** – Strumento CLI per bug bounty che automatizza controlli su **HTTP headers**, **TLS**, **XSS** e **SQLi** con report JSON (opz. cifrati).
 
-> **BugBountyScout** is a Python tool for **bug bounty hunters** and **security researchers**.  
-> It automates checks for **security headers**, **SSL/TLS misconfigurations**, **XSS**, and **SQLi**, producing a clear, actionable JSON report.  
-> ⚜️ Proudly **Made in Italy** ⚜️  
+## Features
+- Header Analysis (CSP, X-CTO, XFO, HSTS, Referrer-Policy, Permissions-Policy)
+- SSL/TLS (handshake e scadenza certificato)
+- XSS riflessa (payload base)
+- SQLi (error-based signatures)
+- Report JSON (+ opzionale cifratura **Fernet**)
+- CLI stabile `bugbountyscout`
 
----
-
-## 🌍 Why “Scout”
-
-Like a field scout, this project favors **practical reconnaissance** and **clear signals**.  
-The color palette reflects natural tones (**olive green, light brown, cream**) for a distinctive identity.
-
----
-
-## ✨ Features
-
-- Security **header analysis** (missing/misconfigured headers)  
-- **SSL/TLS** checks (weak suites, certificate details)  
-- **XSS** probes (reflected/DOM hints)  
-- **SQL injection** heuristics  
-- **Threaded scans** for performance  
-- **JSON report output** (timestamped)  
-- Optional **encrypted reports** (using Fernet)  
-
----
-
-## 📦 Installation
-
-**Requirements**: Python 3.7+, pip, (optional) `cryptography` for encrypted reports.
-
+## Installation
 ```bash
 git clone https://github.com/5KBb/BugBountyScout.git
 cd BugBountyScout
-python3 -m venv venv
-source venv/bin/activate
+python -m venv .venv && . .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+pip install -e .
+```
+
+## Usage (CLI)
+```bash
+# Scansione base
+bugbountyscout example.com
+
+# Output dir e threads
+bugbountyscout https://example.com -o out/ -t 10 -v
+
+# Report cifrato (Fernet)
+bugbountyscout example.com --encrypt-report --key "<FERNET_KEY>"
+```
+
+**Exit codes**  
+`0` = ok · `1` = errore fatale
+
+### USO con Python
+```bash
+python bugbountyscout.py example.com -v
+```
+
+### Command Line Options
+```
+usage: bugbountyscout TARGET [-o DIR] [-t N] [-v] [--encrypt-report --key K]
+```
+
+### Examples
+```bash
+bugbountyscout example.com -v
+bugbountyscout example.com -o /tmp/reports
+bugbountyscout https://example.com?page=1
+```
+
+## Understanding Results
+Il report `report_YYYYmmdd_HHMMSS.json` contiene:
+- `meta`: target, timestamp, versione
+- `summary`: conteggio per severità
+- `findings[]`: `title`, `severity`, `description`, `recommendation`, `evidence`, `component`
+
+## Ethical Use Statement
+BugBountyScout is designed for legitimate security testing with proper authorization. Always ensure you have permission to test the target system. Unauthorized testing may violate laws and terms of service.
+
+## Limitations
+- Possibili falsi positivi → verificare manualmente
+- Test basilari: non rimpiazza un assessment completo
+- Alcuni test possono influenzare l’applicazione target
+
+## Contributing
+PR welcome! Prima di inviare:
+```bash
+pip install -r requirements-dev.txt
+pre-commit install
+pytest -q
+```
+
+## License
+Questo repository è rilasciato sotto **GPL-2.0** (vedi `LICENSE`).
+
+## Disclaimer
+The developers of BugBountyScout are not responsible for any misuse of this tool or for any damage that may result from using this tool. Use at your own risk and responsibility.
+
+## Changelog (estratto)
+- **2.1.0**: hardening rete (timeout/retry), normalizzazione URL, CLI stabile, pin dipendenze, pre-commit, CI, test.
+
+## Conventional commits (esempi)
+- `feat(scanner): add TLS expiry warning`
+- `fix(cli): normalize scheme when missing`
+- `docs(readme): align license to GPL-2.0`
