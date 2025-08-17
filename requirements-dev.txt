@@ -1,0 +1,8 @@
+pytest==8.3.2
+requests-mock==1.12.1
+ruff==0.6.4
+black==24.8.0
+bandit==1.7.9
+pre-commit==3.8.0
+pip-audit==2.7.3
+commitizen==3.27.0
